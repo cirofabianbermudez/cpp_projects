@@ -6,10 +6,15 @@
 filename = "collatz"
 file = filename . ".txt"
 select = 1
+iter = 10 - 1
 
 # Change the terminal from the command line
-if (ARGC >= 1) {
+if (ARGC > 0) {
     select = ARG1 + 0
+}
+
+if (ARGC > 1) {
+    iter = ARG2 + 0 - 1
 }
 
 if (select == 1) {
@@ -26,7 +31,7 @@ if (select == 2) {
   print "PDF Mode Selected"
   reset
   unit = 2.5
-  set terminal pdfcairo size unit*5in, unit*3in font "CMU Serif, 10" fontscale 0.5*unit
+  set terminal pdfcairo size unit*5in, unit*3in font "CMU Serif, 10" fontscale 0.5*unit background rgb "#000000"
   set output filename . ".pdf"
 }
 
@@ -45,13 +50,14 @@ set border 0
 unset key
 
 graph_style = 102
+# "#7fffffff" for transparency useful for pdf but not for png
 set style line graph_style linecolor rgb "#ffffff"\
                                      linewidth 0.1 \
 #                                     dashtype  1 \
 #                                     pointsize 1 \
 #                                     pointtype 4 \
 
-plot file index 1:1000 with lines linestyle graph_style
+plot file index 0:iter with lines linestyle graph_style
 
 # Restore default values
 reset

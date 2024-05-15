@@ -14,7 +14,7 @@ std::vector<double> vectTrans(const std::vector<T>& vec, Func func) {
   std::vector<double> result;
   result.reserve(vec.size());
 
-  for (std::size_t i = 1; i < vec.size(); i++) {
+  for (std::size_t i = 0; i < vec.size(); i++) {
     result.push_back(func((double)vec[i]));
   }
   return result;
@@ -59,9 +59,33 @@ void print_vector(const std::vector<T>& array,
 }
 
 int main(int argc, char** argv) {
+
+  int distElements;
+
+  if (argc < 2) {
+    std::cerr << "Error:\n  Usage: ./collatz <positive_interger>" << std::endl;
+    return 1;
+  }
+
+  try {
+    distElements = std::stoi( argv[1] );
+    std::cout << "# Number of data sets = " << distElements << std::endl;
+
+    if (distElements <= 0) {
+      std::cout << "Error: Argument must be a positive integer." << std::endl;
+      return 1;
+    }
+  } catch (std::invalid_argument const& ex) {
+    std::cerr << "Error: Invalid argument. Please provide an integer." << std::endl;
+    return 1;
+  } catch (std::out_of_range const& ex) {
+    std::cerr << "Error: Argument is out of range." << std::endl;
+    return 1;
+  }
+
   const int distLeft = 1;
   const int distRight = 1e6;
-  const int distElements = 1000;
+  // const int distElements = 1000;
 
   const double ratioLeft = -0.09;
   const double ratioRight = 0.08;
@@ -73,6 +97,7 @@ int main(int argc, char** argv) {
   std::vector<int> sequence;
   std::vector<double> t, x, y;
 
+  std::cout << "#          X             Y" << std::endl;
   for (int i = 0; i < distElements; i++) {
     sequence.push_back(distrib(rng));
 
@@ -95,10 +120,11 @@ int main(int argc, char** argv) {
     y = cumsum(vectTrans(t, sin));
 
     // Set fixed-point notation and precision
+
     std::cout << std::fixed << std::setprecision(5);
     for (std::size_t i = 0; i < x.size(); i++) {
-      std::cout << std::setw(12) << std::setfill(' ') << x[i] << ", " << y[i]
-                << std::endl;
+      std::cout << std::setw(12)  << x[i] << ", "
+                << std::setw(12) << y[i] << std::endl;
     }
     std::cout << std::endl << std::endl;
 

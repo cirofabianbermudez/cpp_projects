@@ -21,7 +21,13 @@ OBJS = $(SRCS:.cpp=.o)
 # Target name
 TARGET = collatz
 
+# Formater
 CLANG_FORMAT = $(shell command -v $(CPP_FORMATER))
+
+# Number of data sets
+NUM ?= 1000
+# 1 PNG   2 PDF
+TERM ?= 2
 
 # ====================================
 #               Targets
@@ -42,15 +48,20 @@ $(TARGET): $(OBJS)
 
 run:
 	@echo "> Running $(TARGET)"
-	./$(TARGET) > $(TARGET).txt
+	./$(TARGET) $(NUM) > $(TARGET).txt
 
 gnuplot:
 	@echo "> Running gnuplot"
-	gnuplot -c $(TARGET).gp
+	gnuplot -c $(TARGET).gp $(TERM) $(NUM)
 
 view:
 	@echo "> Opening viewer"
+ifeq ($(TERM), 1)
 	irfanview $(TARGET).png &
+endif
+ifeq ($(TERM), 2)
+	mupdf $(TARGET).pdf &
+endif
 
 format: $(SRCS)
 	@if command -v $(CPP_FORMATER) > /dev/null 2>&1 ; then \
@@ -63,4 +74,7 @@ format: $(SRCS)
 clean:
 	@echo "> Removing *.exe and *.o"
 	rm -rf *.o *.exe *.txt *.png
+
+help:
+	@echo "> Help"
 
