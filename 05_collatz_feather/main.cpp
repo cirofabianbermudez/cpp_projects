@@ -8,37 +8,44 @@
 
 int collatz(const int n) { return ((n % 2) * (2 * n + 1) + n) / 2; }
 
-std::vector<double> mod(const std::vector<int>& array, const double arg) {
-  std::vector<double> res_vect = {};
-  double temp;
-  for (std::size_t i = 1; i < array.size(); i++) {
-    temp = std::fmod((double)array[i], arg);
-    res_vect.push_back(temp);
+// To apply a function to each element of the vector
+template <typename T, typename Func>
+std::vector<double> vectTrans(const std::vector<T>& vec, Func func) {
+  std::vector<double> result;
+  result.reserve( vec.size() );
+
+  for (std::size_t i = 1; i < vec.size(); i++) {
+    result.push_back( func( (double)vec[i] ) );
   }
-  return res_vect;
+  return result;
 }
 
 template <typename T>
-std::vector<T> cumsum(const std::vector<T>& array) {
-  std::vector<T> temp = array;
-  for (std::size_t i = 1; i < array.size(); i++) {
-    temp[i] = temp[i] + temp[i - 1];
+std::vector<T> cumsum(const std::vector<T>& vec) {
+  std::vector<T> result;
+  result.reserve( vec.size() );
+
+  result.push_back( vec[0] );
+  for (std::size_t i = 1; i < vec.size(); i++) {
+    result.push_back(vec[i] + result[i - 1]);
   }
-  return temp;
+
+  return result;
 }
 
-std::vector<double> rescale(const std::vector<double>& array,
-                            const double leftLimit, const double rightLimit) {
-  std::vector<double> res_vect;
-  auto min = std::min_element(array.begin(), array.end());
-  auto max = std::max_element(array.begin(), array.end());
+std::vector<double> rescale(const std::vector<double>& vec, const double leftLimit, const double rightLimit) {
+  std::vector<double> result;
+  result.reserve( vec.size() );
+
+  auto min = std::min_element(vec.begin(), vec.end());
+  auto max = std::max_element(vec.begin(), vec.end());
+
   double temp;
-  for (std::size_t i = 0; i < array.size(); i++) {
-    temp = leftLimit + (((double)array[i] - *min) / (*max - *min)) *
-                           (rightLimit - leftLimit);
-    res_vect.push_back(temp);
+  for (std::size_t i = 0; i < vec.size(); i++) {
+    temp = leftLimit + ( (vec[i] - *min) / (*max - *min)) * (rightLimit - leftLimit);
+    result.push_back(temp);
   }
-  return res_vect;
+  return result;
 }
 
 template <typename T>
@@ -65,33 +72,25 @@ int main(int argc, char** argv) {
   std::vector<double> t, x, y;
 
   for (int i = 0; i < distElements; i++) {
-    sequence.push_back(distrib(rng));
+    sequence.push_back( distrib(rng) );
 
     while (sequence.back() > 1) {
-      sequence.push_back(collatz(sequence.back()));
+      sequence.push_back( collatz( sequence.back() ) );
     }
 
     std::reverse(sequence.begin(), sequence.end());
 
-    t = cumsum(rescale(mod(sequence, 2.0), ratioLeft, ratioRight));
+    auto mod = [](double x) {return std::fmod(x ,2.0); };
+    auto cos = [](double x) {return std::cos(x); };
+    auto sin = [](double x) {return std::sin(x); };
 
-    x.resize(t.size());
-    y.resize(t.size());
+    t.reserve(sequence.size());
+    x.reserve(sequence.size());
+    y.reserve(sequence.size());
 
-    // std::transform(t.begin(), t.end(), std::back_inserter(x), [](double t) {
-    // return std::cos(t); });
-    std::transform(t.begin(), t.end(), x.begin(),
-                   [](double t) { return std::cos(t); });
-    x = cumsum(x);
-
-    // std::transform(t.begin(), t.end(), std::back_inserter(y), [](double t) {
-    // return std::sin(t); });
-    std::transform(t.begin(), t.end(), y.begin(),
-                   [](double t) { return std::sin(t); });
-    y = cumsum(y);
-
-    // print_vector(x, "x");
-    // print_vector(y, "y");
+    t = cumsum(rescale(vectTrans(sequence, mod), ratioLeft, ratioRight));
+    x = cumsum( vectTrans(t, cos) );
+    y = cumsum( vectTrans(t, sin) );
 
     // Set fixed-point notation and precision
     std::cout << std::fixed << std::setprecision(5);
@@ -102,9 +101,6 @@ int main(int argc, char** argv) {
     std::cout << std::endl << std::endl;
 
     sequence.clear();
-    // t.clear();
-    // x.clear();
-    // y.clear();
   }
 
   return 0;
