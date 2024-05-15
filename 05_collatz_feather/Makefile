@@ -41,12 +41,15 @@ $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET) 
 
 run:
+	@echo "> Running $(TARGET)"
 	./$(TARGET) > $(TARGET).txt
 
 gnuplot:
+	@echo "> Running gnuplot"
 	gnuplot -c $(TARGET).gp
 
 view:
+	@echo "> Opening viewer"
 	irfanview $(TARGET).png &
 
 format: $(SRCS)
