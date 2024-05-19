@@ -57,10 +57,12 @@ gnuplot:
 view:
 	@echo "> Opening viewer"
 ifeq ($(TERMINAL), 1)
-	xdg-open $(TARGET).png &
+	#xdg-open $(TARGET).png &
+	start $(TARGET).png &
 endif
 ifeq ($(TERMINAL), 2)
-	xdg-open $(TARGET).pdf &
+	#xdg-open $(TARGET).pdf &
+	start $(TARGET).pdf &
 endif
 
 format: $(SRCS)
