@@ -27,7 +27,7 @@ CLANG_FORMAT = $(shell command -v $(CPP_FORMATER))
 # Number of data sets
 NUM ?= 1000
 # 1 PNG   2 PDF
-TERM ?= 2
+TERMINAL ?= 1
 
 # ====================================
 #               Targets
@@ -52,15 +52,15 @@ run:
 
 gnuplot:
 	@echo "> Running gnuplot"
-	gnuplot -c $(TARGET).gp $(TERM) $(NUM)
+	gnuplot -c $(TARGET).gp $(TERMINAL) $(NUM)
 
 view:
 	@echo "> Opening viewer"
-ifeq ($(TERM), 1)
-	irfanview $(TARGET).png &
+ifeq ($(TERMINAL), 1)
+	xdg-open $(TARGET).png &
 endif
-ifeq ($(TERM), 2)
-	mupdf $(TARGET).pdf &
+ifeq ($(TERMINAL), 2)
+	xdg-open $(TARGET).pdf &
 endif
 
 format: $(SRCS)
