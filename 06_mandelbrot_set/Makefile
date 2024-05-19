@@ -73,7 +73,7 @@ format: $(SRCS)
 
 clean:
 	@echo "> Removing *.exe and *.o"
-	rm -rf *.o *.exe *.txt *.png
+	rm -rf *.o *.exe *.txt *.png *.pdf $(TARGET)
 
 help:
 	@echo "> Help"
