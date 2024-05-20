@@ -6,7 +6,8 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -g -std=c++23 -Wall
+#CXXFLAGS = -g -std=c++23 -Wall
+CXXFLAGS = -std=c++23 -O3
 
 # Formater
 CPP_FORMATER = clang-format
@@ -48,7 +49,7 @@ $(TARGET): $(OBJS)
 
 run:
 	@echo "> Running $(TARGET)"
-	./$(TARGET) > $(TARGET).txt
+	./$(TARGET)
 
 gnuplot:
 	@echo "> Running gnuplot"
