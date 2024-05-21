@@ -1,4 +1,5 @@
 #include <cmath>
+#include <complex>
 #include <iomanip>
 #include <iostream>
 #include <fstream>
@@ -30,7 +31,6 @@ double mandelbrot (const double& real, const double& imag) {
 }
 
 int main(int argc, char** argv) {
-
   double x0 = -0.6;
   double r = 1.2;
   double points = 1000;
@@ -48,6 +48,7 @@ int main(int argc, char** argv) {
               << std::setw(8) << y << ", " 
               << std::setw(8) <<  mandelbrot(x,y) <<
               std::endl;
+
     }
     outfile << std::endl;
   }
