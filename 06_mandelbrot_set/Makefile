@@ -2,6 +2,9 @@
 #               Variables
 # ====================================
 
+# Operating System
+OS = Windows
+
 # Compiler
 CXX = g++
 
@@ -26,6 +29,7 @@ CLANG_FORMAT = $(shell command -v $(CPP_FORMATER))
 
 # Number of data sets
 NUM ?= 1000
+
 # 1 PNG   2 PDF
 TERMINAL ?= 1
 
@@ -35,12 +39,13 @@ TERMINAL ?= 1
 
 .PHONY: run formater gnuplot clean view
 
+all: $(TARGET) run gnuplot view
+
 # Rule to compile every .cpp to a .o
 %.o: %.cpp
 	@echo "> Compiling $<"
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-all: $(TARGET) run gnuplot view
 
 $(TARGET): $(OBJS)
 	@echo "> Linking object files"
@@ -57,12 +62,18 @@ gnuplot:
 view:
 	@echo "> Opening viewer"
 ifeq ($(TERMINAL), 1)
-	#xdg-open $(TARGET).png &
-	start $(TARGET).png &
+  ifeq ($(OS), Linux)
+	  xdg-open $(TARGET).png &
+  else ifeq ($(OS), Windows)
+	  start $(TARGET).png &
+  endif
 endif
 ifeq ($(TERMINAL), 2)
-	#xdg-open $(TARGET).pdf &
-	start $(TARGET).pdf &
+  ifeq ($(OS), Linux)
+	  xdg-open $(TARGET).pdf &
+  else ifeq ($(OS), Windows)
+	  start $(TARGET).pdf &
+  endif
 endif
 
 format: $(SRCS)
