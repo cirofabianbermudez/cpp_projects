@@ -28,9 +28,6 @@ TARGET = mandelbrot
 # Formater
 CLANG_FORMAT = $(shell command -v $(CPP_FORMATER))
 
-# Number of data sets
-NUM ?= 1000
-
 # 1 PNG   2 PDF
 TERMINAL ?= 1
 
