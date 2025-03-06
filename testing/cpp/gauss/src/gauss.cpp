@@ -40,12 +40,12 @@ int main(int argc, char** argv) {
   double yleft  = -5.0;
   double yright =  5.0;
 
-  double step = 0.5;
+  double step = 0.1;
   double z = 0.0;
-
+ //https://en.cppreference.com/w/cpp/numeric/random/normal_distribution
   for (double x = xleft; x <= xright; x += step) {
     for (double y = yleft; y <= yright; y += step) {
-      z = gauss_dist(x, 0.0, 1.0) * gauss_dist(y, 0.0, 1.0);
+      z = gauss_dist(x, 0.0, 0.3) * gauss_dist(y, 0.0, 0.3);
       // 7 total digits, 3 digits after decimal point
       outfile << std::format("{:>7.3f} {:>7.3f} {:>7.3f}\n", x, y, z);
     }
