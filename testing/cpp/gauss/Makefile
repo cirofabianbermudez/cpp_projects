@@ -23,9 +23,9 @@ BIN_DIR := bin
 INC_DIR := include
 
 # Compiler and flags
-CXX := g++
-CXXFLAGS := -Wall -Wextra -std=c++17 -I ./$(INC_DIR)
-LDFLAGS += -lpthread
+CXX      := g++
+CXXFLAGS := -Wall -Wextra -std=c++23 -I ./$(INC_DIR)
+LDFLAGS  :=
 #CXXFLAGS := -std=c++23
 
 # Output executable
