@@ -85,7 +85,7 @@ $(TARGET): $(OBJS)
 .PHONY: run
 run: ## Run C++ code
 	@echo -e "$(C_ORA)Running $(TARGET) $(NC)"
-	./$(TARGET)
+	./$(TARGET) 8 8
 #______________________________________________________________________________
 
 .PHONY: clean

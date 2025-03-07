@@ -22,16 +22,17 @@ set terminal pdfcairo size unit*5in, unit*3in font "CMU Serif, 10" fontscale 0.5
 set output "../output/" . filename . ".pdf"
 
 # Configure range
-xleft = 0.0; xright = 7.0; xstep = 1.0
-ydown = 0.0; yup    = 7.0; ystep = 1.0
+xleft = 0.0; xright = 8.0; xstep = 1.0
+ydown = 0.0; yup    = 8.0; ystep = 1.0
 
 offset = 0.5
-set xrange [xleft-offset:xright+offset]
-set yrange [ydown-offset:yup+offset]
+set xrange [xleft-offset:xright-offset]
+set yrange [ydown-offset:yup-offset]
 
 # Configure grid and ticks
-# set xtics xleft, xstep, xright
-# set ytics ydown, ystep, yup
+set xtics xleft, xstep, xright
+set ytics ydown, ystep, yup
+set grid xtics ytics
 
 # grid_major = 100
 # grid_minor = 101
