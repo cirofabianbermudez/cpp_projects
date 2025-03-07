@@ -23,7 +23,7 @@
 #include <array>
 
 template<typename T, std::size_t Rows, std::size_t Cols>
-void printMatrix(const std::array<std::array<T, Cols>, Rows>& matrix, bool invertRows = true) {
+void printMatrix(const std::array<std::array<T, Cols>, Rows>& matrix, bool invertRows = true, std::ostream& out = std::cout) {
   double value = 0.0;
   
   if (invertRows) {
@@ -32,9 +32,9 @@ void printMatrix(const std::array<std::array<T, Cols>, Rows>& matrix, bool inver
     for (std::size_t i = Rows; i-- > 0;) {
       for (std::size_t j = 0; j < Cols; ++j) {
         value = static_cast<double>( matrix[i][j] );
-        std::cout << std::format("{:>7.2f} ", value);
+        out << std::format("{:>7.2f} ", value);
       }
-      std::cout << "\n";
+      out << "\n";
     }
 
   } else {
@@ -43,11 +43,11 @@ void printMatrix(const std::array<std::array<T, Cols>, Rows>& matrix, bool inver
     for (std::size_t i = 0; i < Rows; ++i) {
       for (std::size_t j = 0; j < Cols; ++j) {
         value = static_cast<double>( matrix[i][j] );
-        std::cout << std::format("{:>7.2f} ", value);
+        out << std::format("{:>7.2f} ", value);
       }
-      std::cout << "\n";
+      out << "\n";
     }
-
+    
   }
 
 }
@@ -112,20 +112,8 @@ int main() {
   
   printMatrix(mattonella);
   std::cout << std::format("\nrand_x: {:>2d},  rand_y: {:>2d}\n", rand_x, rand_y);
-
-  int value = 0;
-  for (int x = 0; x < static_cast<int>(x_dim); x++) {
-    for (int y = 0; y < static_cast<int>(y_dim); y++) {
-      // 7 total digits, 3 digits after decimal point
-      if (x == rand_x && y == rand_y) {
-        value = 1;
-      } else {
-        value = 0;
-      }
-      outfile << std::format("{:>3d} {:>3d} {:>3}\n", x, y, value);
-    }
-    outfile << "\n";
-  }
+  
+  printMatrix(mattonella, false, outfile);
 
   outfile.close();
 
