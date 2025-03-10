@@ -43,7 +43,9 @@ void printMatrix(const std::vector<std::vector<T>>& matrix, bool invertRows = tr
     for (std::size_t i = Rows; i-- > 0;) {
       for (std::size_t j = 0; j < Cols; ++j) {
         value = static_cast<double>( matrix[i][j] );
-        out << std::format("{:>7.2f} ", value);
+        // out << std::format("{:>7.2f} ", value);
+        out << std::fixed << std::setprecision(2)
+            << std::setw(7) << value << " ";
       }
       out << "\n";
     }
@@ -54,7 +56,9 @@ void printMatrix(const std::vector<std::vector<T>>& matrix, bool invertRows = tr
     for (std::size_t i = 0; i < Rows; ++i) {
       for (std::size_t j = 0; j < Cols; ++j) {
         value = static_cast<double>( matrix[i][j] );
-        out << std::format("{:>7.2f} ", value);
+        //out << std::format("{:>7.2f} ", value);
+        out << std::fixed << std::setprecision(2)
+            << std::setw(7) << value << " ";
       }
       out << "\n";
     }
@@ -78,7 +82,14 @@ void printMatrixUVC(const std::vector<std::vector<T>>& matrix, int offset_ps = 3
   for (std::size_t i = 0; i < Rows; ++i) {
     for (std::size_t j = 0; j < Cols; ++j) {
       value = static_cast<int>( matrix[i][j] );
-      out << std::format("{:>4d} {:>4d} {:>8d} {:>8d}\n", i, j, value, offset_ps);
+      //if (value > 0) {
+        //out << std::format("{:>4d} {:>4d} {:>8d} {:>8d}\n", j, i, value, offset_ps);
+        out << std::right
+            << std::setw(4) << j << " "
+            << std::setw(4) << i << " "
+            << std::setw(8) << value << " "
+            << std::setw(8) << offset_ps << "\n";
+      //}
     }
   }
 }
@@ -112,7 +123,12 @@ int main(int argc, char* argv[]) {
     return 1;
   }
   
-  std::cout << std::format("\n[INFO]: x_dim: {:>5d},  y_dim: {:>5d}\n", x_dim, y_dim);
+  //std::cout << std::format("\n[INFO]: x_dim: {:>5d},  y_dim: {:>5d}\n", x_dim, y_dim);
+  std::cout << "\n[INFO]: x_dim: " 
+            << std::right << std::setw(5) << x_dim 
+            << ",  y_dim: " 
+            << std::setw(5) << y_dim 
+            << "\n";
 
   // Define output file
   std::string filename = "../../data/mattonella.txt";
