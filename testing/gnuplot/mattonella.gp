@@ -65,7 +65,7 @@ set palette defined ( \
 
 # set cbrange [0:1]
 set cblabel "Score"
-unset cbtics
+#unset cbtics
 #set xrange [-0.5:4.5]
 #set yrange [-0.5:4.5]
 set size square
